@@ -1,0 +1,24 @@
+<div class="container">
+	<div class="jumbotron">
+		<h1>Header</h1>
+	<p>{{ bye }}</p>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<uib-tabset class="tabs-left">
+		   <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" active="tab.active" disable="tab.disabled">
+		     {{tab.content}}
+		   </uib-tab>
+		</uib-tabset>
+	</div>
+
+	<br>
+	<!-- <p id="lyrics" ng-bind-html="lyrics"></p><p>...</p> -->
+	<button type="submit" ng-click="checkLyrics()" ng-show="showme=true" class="btn btn-success pull-right">Play song!</button>
+	<hr>
+	<div ng-repeat="album in albums | unique:'name'">
+		{{ album.name }}
+	</div>
+</div>
+
