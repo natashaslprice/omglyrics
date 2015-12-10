@@ -8,6 +8,12 @@
 	height: 200px !important;
 }
 
+.albumImage {
+	width: 150px;
+	height: 150px;
+}
+
+
 /* styling for vertical tabs */
 .tabs-below > .nav-tabs,
 .tabs-right > .nav-tabs,

@@ -8,7 +8,8 @@ angular.module('myApp', ['ui.router',
                          'myApp.controllers',
                          'ngSanitize',
                          'angular.filter',
-                         'ui.bootstrap'])
+                         'ui.bootstrap',
+                         'ngAnimate'])
 
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
