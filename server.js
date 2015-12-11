@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 // connect to database
 var dbName = 'song-app';
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/' + dbName);    
+mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/' + dbName);    
 
 // serve public folder as static assets on the root route
 var publicPath = path.join(__dirname, 'public');
