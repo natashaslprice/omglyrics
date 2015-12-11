@@ -21,6 +21,7 @@
     "angular-filter": "^0.5.8",
     "body-parser": "^1.12.3",
     "bower": "^1.4.1",
+    "dotenv": "^1.2.0",
     "ejs": "^2.3.3",
     "express": "^4.13.3",
     "mongoose": "^4.0.2",
