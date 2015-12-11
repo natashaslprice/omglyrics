@@ -76,9 +76,9 @@ angular.module('myApp.controllers', [])
           // get track uri numbers for spotify play button
           $scope.trackUri = response.match(/:[^:]*$/g);
           // console.log("here", $scope.trackUri);
-
+          // remove the ** words **
+          response = response.replace(/\*[^\/]+$/g, ' ');
           // make lyrics into array, using spaces and line breaks
-          // console.log(response);
           var responseArray = response.replace( /\n/g, " " ).split( " " );
           // console.log(responseArray.length);
 
@@ -100,103 +100,73 @@ angular.module('myApp.controllers', [])
 
           // set array of indexes to empty
           var blanksIndexes = [];
-          // while loop until blanksIndexes length is equal to the numberofBlanks
+          // while loop until blanksIndexes length is equal to the numberOfBlanks
           while (blanksIndexes.length !== numberOfBlanks) {
             // choose random number between 1 and length of response array
-            var randomNumber = Math.floor((Math.random() * (responseArray.length)) + 1);
-            // if blanksIndexes empty, push randomNumber in
+            var randomNumber = Math.floor((Math.random() * (responseArray.length-1)) + 1);
+            // if blanksIndexes empty
             if (blanksIndexes.length === 0) {
-              blanksIndexes.push(randomNumber);
-              console.log(blanksIndexes);
+              // check no apostrophe in word, replace word with input field and push index into array
+              checkApostrophe(blanksIndexes, randomNumber, responseArray);
+              // console.log(blanksIndexes);
             }
             else {
-              // for loop through blanksIndexes to check number doesn't already exist
-              var found = false;
-              for (var i = 0; i < blanksIndexes.length; i ++) {
-                if (randomNumber === blanksIndexes[i]) {
-                  found = true;
-                  return;
-                }
-              }
-              // if not found
-              if (!found) {
-                // if responseArray word does not have an ' in
-                for (var j = 0; j < blanksIndexes.length; j++) {
-                  if (responseArray[blanksIndexes[j]].indexOf('\'') < 0) {
-                    // then replace word with input, with data-id same as word
-                    var inputField = "<input type='text' class='lyricsInputs' data-id='" + responseArray[j] + "'>";
-                    console.log(inputField);
-                    // responseArray[j] = responseArray[j].replace(responseArray[j], inputField);
-                    // // and push that number into number array
-                    // blanksIndexes.push(randomNumber);
-                  }
-                  else {
-                    return;
-                  }
-                }
-              }
+              // check function for unique index value and apostrophes
+              checkUnique(blanksIndexes, randomNumber, responseArray);
             }
           }
-          console.log(blanksIndexes);
-          console.log(responseArray);
-    
-          // // get 5 random numbers to use as indexes of words to remove from array
-          // var wordIndexes = [];
-          // while (wordIndexes.length < 5) {
-          //   var randomNumber = Math.floor((Math.random() * 50) + 1);
-          //   var found = false;
-          //   for (var j = 0; j < wordIndexes.length; j ++) {
-          //     if (randomNumber === wordIndexes[j]) {
-          //       found = true;
-          //       return;
-          //     }
-          //   }
-          //   if (!found) {
-          //     wordIndexes.push(randomNumber);
-          //   }
-          // }
-          // wordIndexes.sort(function(a, b){
-          //   return a-b;
-          // });
-          // // console.log(wordIndexes);
-
-
-
+          // console.log(blanksIndexes);
+          // console.log(responseArray);
           
-          // // get the 5 words with the wordIndexes from the newResponseArray
-          // var wordsToRemove = [];
-          // var index;
-          // for (var k = 0; k < wordIndexes.length; k++) {
-          //   index = wordIndexes[k];
-          //   // console.log(index);
-          //   // push the words into an array to store
-          //   wordsToRemove.push(newResponseArray[index]);
-          //   // replace the word with inputField
-          //   var inputField = "<input type='text' class='lyricsInputs' data-id='" + wordsToRemove[k] + "'>";
-          //   newResponseArray[index] = newResponseArray[index].replace(newResponseArray[index], inputField);
-          // }
-          // // console.log(wordsToRemove);
-          // // console.log(newResponseArray);
+          // make array a string again
+          var stringLyrics = responseArray.join(" ");
+          console.log(stringLyrics);
           
-          // // make array a string again
-          // var stringLyrics = newResponseArray.join(" ");
-          // console.log(stringLyrics);
-          
-          // // replace the line breaks with <br>
-          // // var stringLyricsBreak = stringLyrics.replace(/\n/g, '<br>'); 
-          // $('#lyrics').html(stringLyrics);
-          // // $scope.lyrics = stringLyrics;
-
-
+          // replace the line breaks with <br>
+          // var stringLyricsBreak = stringLyrics.replace(/\n/g, '<br>'); 
+          $('#lyrics').html(stringLyrics);
+          // $scope.lyrics = stringLyrics;
         })
         .error(function(error) {
           console.log("The error with the /api/lyrics call is: ", error);
         });
     };
+    
+    // checkUnique for unique index value and apostrophes
+    var checkUnique = function(indexArray, randomNumber, lyricsArray) {
+      // for loop through blanksIndexes to check number doesn't already exist
+      var found = false;
+      for (var i = 0; i < indexArray.length; i ++) {
+        if (randomNumber === indexArray[i]) {
+          found = true;
+          return;
+        }
+      }
+      // if not found
+      if (!found) {
+        // console.log(randomNumber);
+        // checkApostrophe function
+        checkApostrophe(indexArray, randomNumber, lyricsArray);
+      }
+    };
+
+    // checkApostrophe function 
+    var checkApostrophe = function(indexArray, randomNumber, lyricsArray) {
+      // if word not blank or ... and no apostrophe in the word
+      if (lyricsArray[randomNumber] !== " " && lyricsArray[randomNumber] !== "" && lyricsArray[randomNumber] !== "..." && lyricsArray[randomNumber].indexOf('\'') < 0) {
+        // then replace word with input, with data-id same as word
+        var inputField = "<input type='text' class='lyricsInputs' data-id='" + lyricsArray[randomNumber] + "'>";
+        lyricsArray[randomNumber] = lyricsArray[randomNumber].replace(lyricsArray[randomNumber], inputField);
+        // and push that number into number array
+        indexArray.push(randomNumber);
+      }
+      else {
+        return;
+      }
+    };
 
     
   }]); // end of SongsIndexCtrl
-
 
 
 
