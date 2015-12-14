@@ -1,39 +1,58 @@
-<div class="container">
-	<div class="jumbotron">
-		<h1>Header</h1>
-		<h4>
-		<div class="btn-group">
-        <label class="btn btn-primary" ng-model="value" uib-btn-radio="'Bronze'" value="Bronze" ng-change="newValue(value)">Bronze</label>
-        <label class="btn btn-primary" ng-model="value" uib-btn-radio="'Silver'" value="Silver" ng-change="newValue(value)">Silver</label>
-        <label class="btn btn-primary" ng-model="value" uib-btn-radio="'Gold'" value="Gold" ng-change="newValue(value)">Gold</label>
-    </div>
-		</h4>
-	</div>
+<div class="container text-center">
+	<h1>Choose a level and a song...</h1>
+	<h4>
+	<div class="btn-group">
+      <label class="btn btn-level btn-bronze" ng-model="value" uib-btn-radio="'Bronze'" value="Bronze" ng-change="newValue(value)">Bronze</label>
+      <label class="btn btn-level btn-silver" ng-model="value" uib-btn-radio="'Silver'" value="Silver" ng-change="newValue(value)">Silver</label>
+      <label class="btn btn-level btn-gold" ng-model="value" uib-btn-radio="'Gold'" value="Gold" ng-change="newValue(value)">Gold</label>
+  </div>
+	</h4>
 </div>
+<br><br>
 <div class="container">
 	<div class="row">
 		<!-- display album images on half page -->
 		<div class="col-sm-6">
 			<div ng-repeat="album in albums">
-				<div class="col-sm-4">
+				<div class="col-sm-3">
 					<img ng-src="{{ album.images[0].url }}" class="albumImage" ng-click="getTracks()">
 				</div>
 			</div>
 		</div>
 		<!-- div to display tracks from each album -->
 		<div class="col-sm-6">
+			<h3 id="albumTitle">{{ albumTitle }}</h3>
 			<ol>
 				<div ng-repeat="track in tracks">
-					<li><a href="#" ng-click="getLyrics()">{{ track.name }}</a></li>
+					<li class="trackName"><a href="#" ng-click="getLyrics()">{{ track.name }}</a></li>
 				</div>
 			</ol>
 		</div>
 	</div> <!-- end of row with albums and track data -->
+	<hr>
 	<div class="row">
-		<div id="lyrics"></div>
-		<br>
-		<button class="btn btn-default" ng-click="checkLyrics">Play!</button>
+		<div class="col-sm-8 col-sm-offset-2">
+			<div id="lyrics"></div>
+			<br>
+			<button class="btn btn-default pull-right" ng-show="showButton" ng-click="checkLyrics(); open()">Play!</button>
+		</div>
 	</div>
-	
+	<!-- <div class="row">
+		<div id="spotifyPlay"></div>
+	</div> -->
+</div>
+
+<div>
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Congratulations! You have earned the {{ level }} badge for {{ trackName }} {{trackUri}}</h3>
+        </div>
+        <div class="modal-body text-center">
+        	<div ng-bind-html="spotifyPlay"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
+        </div>
+    </script>
 </div>
 

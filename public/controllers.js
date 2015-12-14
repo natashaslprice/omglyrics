@@ -36,15 +36,24 @@ angular.module('myApp.controllers', [])
   }]) // end of LandingIndexCtrl
 
 
-  .controller('SongsIndexCtrl', ['$scope', '$http','$window', '$element', '$location', 'sharedAlbums', function ($scope, $http, $window, $element, $location, sharedAlbums) { 
+  .controller('SongsIndexCtrl', ['$scope', '$http','$window', '$element', '$location', 'sharedAlbums', 'removeAccents', '$uibModal', '$log', function ($scope, $http, $window, $element, $location, sharedAlbums, removeAccents, $uibModal, $log) { 
     // get albums from sharedAlbums factory
     $scope.albums = sharedAlbums.getAlbums();
     // console.log($scope.albums);
-    
+
+    // find if bronze silver or gold level selected
+    $scope.value = 'Bronze';
+    $scope.newValue = function(value) {
+      $scope.level = value;
+      console.log($scope.level);
+    };
+
     // on click of image, get tracks from spotify api
     $scope.getTracks = function() {
       // get spotify album id from item that was clicked
       var albumId = this.album.id;
+      // send album name to view
+      $scope.albumTitle = this.album.name;
       // send spotify id into spotify api and get albums tracks
       $http.post('/api/tracks', {id: albumId})
         .success(function(response) {
@@ -57,51 +66,47 @@ angular.module('myApp.controllers', [])
         });
     }; // end of getTracks function
 
-    // find if bronze silver or gold level selected
-    $scope.value = 'Bronze';
-    $scope.newValue = function(value) {
-      $scope.level = value;
-      console.log($scope.level);
-    };
-
     // get lyrics for chosen track
     $scope.getLyrics = function() {
       // console.log("clicked", this.track.name);
-      var trackArtist = this.track.artists[0].name;
-      var trackName = this.track.name;
+      // remove any accents from artists names
+      var trackArtist = removeAccents.removeDiacritics(this.track.artists[0].name);
+      $scope.trackName = this.track.name;
+      // $scope.trackName = sharedTrackName.setTrackName(trackName);
+      console.log(trackArtist, $scope.trackName);
       // send trackArtist and trackName into musixmatch api to get lyrics
-      $http.post('/api/lyrics', {artist: trackArtist, track: trackName})
+      $http.post('/api/lyrics', {artist: trackArtist, track: $scope.trackName})
         .success(function(response) {
-          // console.log(response);
+          console.log(response);
           // get track uri numbers for spotify play button
           $scope.trackUri = response.match(/:[^:]*$/g);
           // console.log("here", $scope.trackUri);
           // remove the ** words **
           response = response.replace(/\*[^\/]+$/g, ' ');
-          // make lyrics into array, using spaces and line breaks
-          var responseArray = response.replace( /\n/g, " " ).split( " " );
-          // console.log(responseArray.length);
+          // make lyrics into array, using spaces, commas, brackets and line breaks
+          var responseArray = response.replace( /\n/g, " " ).split(/[ ,().]+/);
+          // console.log(responseArray);
 
           // get no.of words to blank out based on level and length of response array
-          var numberOfBlanks;
+          $scope.numberOfBlanks = 0;
           // if gold, 30% of words blank
           if ($scope.level == 'Gold') {
-            numberOfBlanks = Math.floor(0.3 * responseArray.length);
+            $scope.numberOfBlanks = Math.floor(0.25 * responseArray.length);
           }
           // if silver, 20% of words blank
           else if ($scope.level == 'Silver') {
-            numberOfBlanks = Math.floor(0.2 * responseArray.length);
+            $scope.numberOfBlanks = Math.floor(0.1 * responseArray.length);
           }
           // if bronze, 10% of words blank
           else {
-            numberOfBlanks = Math.floor(0.1 * responseArray.length);
+            $scope.numberOfBlanks = Math.floor(0.05 * responseArray.length);
           }
-          console.log(numberOfBlanks);
+          console.log($scope.numberOfBlanks);
 
           // set array of indexes to empty
           var blanksIndexes = [];
-          // while loop until blanksIndexes length is equal to the numberOfBlanks
-          while (blanksIndexes.length !== numberOfBlanks) {
+          // while loop until blanksIndexes length is equal to the $scope.numberOfBlanks
+          while (blanksIndexes.length !== $scope.numberOfBlanks) {
             // choose random number between 1 and length of response array
             var randomNumber = Math.floor((Math.random() * (responseArray.length-1)) + 1);
             // if blanksIndexes empty
@@ -126,12 +131,17 @@ angular.module('myApp.controllers', [])
           // var stringLyricsBreak = stringLyrics.replace(/\n/g, '<br>'); 
           $('#lyrics').html(stringLyrics);
           // $scope.lyrics = stringLyrics;
+
+          // show play button
+          $scope.showButton = true;
         })
         .error(function(error) {
           console.log("The error with the /api/lyrics call is: ", error);
         });
     };
     
+
+
     // checkUnique for unique index value and apostrophes
     var checkUnique = function(indexArray, randomNumber, lyricsArray) {
       // for loop through blanksIndexes to check number doesn't already exist
@@ -153,7 +163,7 @@ angular.module('myApp.controllers', [])
     // checkApostrophe function 
     var checkApostrophe = function(indexArray, randomNumber, lyricsArray) {
       // if word not blank or ... and no apostrophe in the word
-      if (lyricsArray[randomNumber] !== " " && lyricsArray[randomNumber] !== "" && lyricsArray[randomNumber] !== "..." && lyricsArray[randomNumber].indexOf('\'') < 0) {
+      if (lyricsArray[randomNumber] !== " " && lyricsArray[randomNumber] !== "" && lyricsArray[randomNumber] !== "..." && lyricsArray[randomNumber].indexOf('\'') <= 0) {
         // then replace word with input, with data-id same as word
         var inputField = "<input type='text' class='lyricsInputs' data-id='" + lyricsArray[randomNumber] + "'>";
         lyricsArray[randomNumber] = lyricsArray[randomNumber].replace(lyricsArray[randomNumber], inputField);
@@ -165,32 +175,86 @@ angular.module('myApp.controllers', [])
       }
     };
 
-    
-  }]); // end of SongsIndexCtrl
-
-
-
     // check lyrics when user presses play button
-  //   $scope.checkLyrics = function() {
-  //     // find lyricsInputs class and check whether inputs == data-id
-  //     var elements = $element.find('.lyricsInputs');
-  //     // console.log(elements);
-  //     // for each element, if correct show green box and increase count
-  //     var count = 0;
-  //     for (var m = 0; m < elements.length; m++) {
-  //       // console.log("data-id: ", elements[m].dataset.id, "value: ", elements[m].value);
-  //       if (elements[m].dataset.id == elements[m].value) {
-  //         elements[m].style.borderColor = "green";
-  //         count ++;
-  //         if (count === 5) {
-  //           // console.log("uri: ", $scope.trackUri);
-  //           $scope.player = "<iframe src='https://embed.spotify.com/?uri=spotify:track" + $scope.trackUri[0] + "' width='300' height='380' frameborder='0' allowtransparency='true'></iframe>";
-  //           $('#spotifyPlay').html($scope.player);
-  //         }
-  //       }
-  //       else {
-  //        elements[m].style.borderColor = "red"; 
-  //       }
-  //     }
+    $scope.checkLyrics = function() {
+      // find lyricsInputs class and check whether inputs == data-id
+      var elements = $element.find('.lyricsInputs');
+      // console.log(elements);
+      // for each element, if correct show green box and increase count
+      var count = 0;
+      for (var k = 0; k < elements.length; k++) {
+        // console.log("data-id: ", elements[k].dataset.id, "value: ", elements[k].value);
+        if (elements[k].dataset.id.trim().toLowerCase() == elements[k].value.trim().toLowerCase()) {
+          elements[k].style.borderColor = "green";
+          count ++;
+          // console.log(count);
+          // console.log($scope.numberOfBlanks);
+          if (count === $scope.numberOfBlanks) {
+            //new code
+            $scope.items = [$scope.trackName, $scope.level, $scope.trackUri[0]];
 
-  // };
+            $scope.animationsEnabled = true;
+
+            $scope.open = function (size) {
+              var modalInstance = $uibModal.open({
+                animation: $scope.animationsEnabled,
+                templateUrl: 'myModalContent.html',
+                controller: 'ModalInstanceCtrl',
+                size: size,
+                resolve: {
+                  items: function () {
+                    return $scope.items;
+                  }
+                }
+              });
+
+              modalInstance.result.then(function (selectedItem) {
+                $scope.selected = selectedItem;
+              }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+              });
+            };
+
+            // $scope.toggleAnimation = function () {
+            //   $scope.animationsEnabled = !$scope.animationsEnabled;
+            // };
+
+            // end of new code
+
+            // console.log("uri: ", $scope.trackUri);
+            // $scope.player = "<iframe src='https://embed.spotify.com/?uri=spotify:track" + $scope.trackUri[0] + "' width='300' height='380' frameborder='0' allowtransparency='true'></iframe>";
+            // $('#spotifyPlay').html($scope.player);
+          }
+        }
+        else {
+         elements[k].style.borderColor = "red"; 
+        }
+      }
+  };
+    
+  }]) // end of SongsIndexCtrl
+
+  .controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, $sce) {
+    console.log(items);
+    // set trackname
+    $scope.trackName = items[0];
+    // set level
+    if (items[1] === undefined) {
+      $scope.level = "bronze";  
+    }
+    else {
+      $scope.level = items[1];
+    }
+    // set spotify player
+    // $scope.trackUri = items[2];
+    $scope.spotifyPlay = $sce.trustAsHtml("<iframe src='https://embed.spotify.com/?uri=spotify:track" + items[2] + "' width='300' height='380' frameborder='0' allowtransparency='true'></iframe>");
+    console.log($scope.spotifyPlay);
+    // $('#spotifyPlay').html($scope.player);
+
+    $scope.close = function () {
+      $uibModalInstance.dismiss('close');
+    };
+  });
+
+
+

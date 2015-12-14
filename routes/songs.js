@@ -78,6 +78,7 @@ module.exports = function(app) {
     request(trackIdQuery, function(err, response, body) {
       if (!err && response.statusCode == 200) {
         var trackData = JSON.parse(body);
+        // console.log(trackData.message.body.track);
         // get musix track id
         var trackId = trackData.message.body.track.track_id;
         // getspotify track uri (to use spotify play button)
@@ -106,42 +107,3 @@ module.exports = function(app) {
   });
 
 };
-
-
-
-// // choose one of the tracks at random
-// var randomTrackNumber = Math.floor((Math.random() * 10) + 1);
-// console.log("check here: ", topTracks[randomTrackNumber]);
-// var randomTrackName = topTracks[randomTrackNumber].name;
-// console.log("track: ", randomTrackName);
-// // get track uri for spotify play
-// var trackUri = topTracks[randomTrackNumber].uri;
-
-// // send artistName and randomTrackName into lyric api to get track id
-// var trackIdQuery = "http://api.musixmatch.com/ws/1.1/matcher.track.get?apikey=" + MM_API_KEY + "&q_artist=" + artistName + "&q_track=" + randomTrackName;
-// request(trackIdQuery, function(err, response, body) {
-//   if (!err && response.statusCode == 200) {
-//     var trackData = JSON.parse(body);
-//     // console.log("response: ", trackData.message.body.track.track_id);
-//     var trackId = trackData.message.body.track.track_id;
-
-//     // send trackId into lyrics api to get lyrics
-//     var lyricQuery = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=" + MM_API_KEY + "&track_id=" + trackId;
-//     request(lyricQuery, function(err, response, body) {
-//       if (!err && response.statusCode == 200) {
-//         var lyricsData = JSON.parse(body);
-//         // console.log("lyrics: ", lyricsData.message.body.lyrics);
-//         console.log(lyricsData.message.body.lyrics.lyrics_body);
-//         res.write(lyricsData.message.body.lyrics.lyrics_body);
-//         res.write(trackUri);
-//         res.end();
-//       }
-//       else {
-//         console.log("error in lyrics api: " + err);
-//       }
-//     });
-//   }
-//   else {
-//     console.log("error in trackdata api: " + err);
-//   }
-// });

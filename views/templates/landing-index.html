@@ -1,14 +1,36 @@
 <div class="container">
-	<h1>Do you know the words?</h1>
-	<hr>
-	<form class="form-group">
-		<!-- <label>Give me the name of an artist you like...</label> -->
-		<input type="text" ng-model="artist" class="form-control" placeholder="Artist Name" required>
-		<br>
-		<input type="submit" ng-click="searchForm(artist)" class="btn btn-primary pull-right" value="Search">
-	</form>
-	<div class="text-center">{{ landingError }}</div>
+	<div class="row">
+		<div class="col-sm-6 col-sm-offset-3">
+			<h1 class="text-center">Do you know the words?</h1>
+			<hr>
+			<form class="form-group">
+				<!-- <label>Give me the name of an artist you like...</label> -->
+				<input type="text" ng-model="artist" class="form-control" placeholder="Artist Name" required>
+				<br>
+				<input type="submit" ng-click="searchForm(artist)" class="btn btn-primary pull-right" value="Search">
+			</form>
+			<div class="text-center">{{ landingError }}</div>
+		</div>
+	</div> <!-- end of row -->
 	<br><br><br>
+	<div class="row text-center">
+		<div class="col-sm-4">
+			<img src="http://placehold.it/350x350">
+			<h4>Enter the name of an artist you sing along to</h4>
+		</div>
+		<div class="col-sm-4">
+			<img src="http://placehold.it/350x350">
+			<h4>Choose a track and see if you know the words</h4>
+		</div>
+		<div class="col-sm-4">
+			<img src="http://placehold.it/350x350">
+			<h4>If you do, enjoy the song!</h4>
+		</div>
+	</div> <!-- end of row -->
+	<br><br><br>
+	<div class="row">
+		
+	</div> <!-- end of row -->
 
 	<!-- panels explaining what to do -->
-</div>
+</div> <!-- end of container -->
