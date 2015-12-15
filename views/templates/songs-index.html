@@ -1,5 +1,6 @@
 <div class="container text-center">
-	<h1>Choose a level and a song...</h1>
+	<h1 ng-show="currentUser">Choose a level and a song...</h1>
+	<h1 ng-show="!currentUser">Choose a song...</h1>
 	<h4>
 	<div ng-show="currentUser" class="btn-group">
       <label class="btn btn-level btn-bronze" ng-model="value" uib-btn-radio="'Bronze'" value="Bronze" ng-change="newValue(value)">Bronze</label>

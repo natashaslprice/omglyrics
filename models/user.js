@@ -19,7 +19,9 @@ var UserSchema = new Schema({
     username: { type: String, required: true, unique: true, trim: true, set: toLower },
     email: { type: String, required: true, unique: true, trim: true, set: toLower },
     password: { type: String, select: false },
-    songs: [Song.schema]
+    songsBronze: [Song.schema],
+    songsSilver: [Song.schema],
+    songsGold: [Song.schema]
 });
 
 // MIDDLEWARE

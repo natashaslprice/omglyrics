@@ -27,6 +27,16 @@ angular.module('myApp', ['satellizer',
         url: '/leaderboard',
         templateUrl: 'templates/leaderboard-index.html',
         controller: 'LeaderboardIndexCtrl'
+      })
+      .state('users-index', {
+        url: '/profile',
+        templateUrl: 'templates/users-index.html',
+        controller: 'UsersCtrl'
+      })
+      .state('settings-index', {
+        url: '/settings',
+        templateUrl: 'templates/settings-index.html',
+        controller: 'SettingsIndexCtrl'
       });
 
     $urlRouterProvider.otherwise("/state1");

@@ -1,0 +1,38 @@
+<div class="container">
+	<div class="row">
+		<h1>Here's how you're doing, {{ user.firstName }}:</h1>
+	</div>
+	<br><br><br>
+	<div class="row">
+		<div>
+		  <uib-tabset>
+		    <!-- info on first (open) tab -->
+		    <uib-tab heading="Gold Badges">
+		    	<br>
+		    	You have {{ goldCount }} Gold {{ badgeGold }}
+		    	<hr>
+		    	<ol ng-repeat="song in songsGold">
+		    		<li>{{ song.title }} by {{ song.artist }}</li>
+		    	</ol>
+		    </uib-tab>
+		    <uib-tab heading="Silver Badges">
+		    	<br>
+		    	You have {{ silverCount }} Silver {{ badgeSilver }}
+		    	<hr>
+		    	<ol ng-repeat="song in songsSilver">
+		    		<li>{{ song.title }} by {{ song.artist }}</li>
+		    	</ol>
+		    </uib-tab>
+		    <uib-tab heading="Bronze Badges">
+		    	<br>
+		    	You have {{ bronzeCount }} Bronze {{ badgeBronze }}
+		    	<hr>
+		    	<ol ng-repeat="song in songsBronze">
+		    		<li>{{ song.title }} by {{ song.artist }}</li>
+		    	</ol>
+		    </uib-tab>
+		  </uib-tabset>
+		</div>
+	</div>
+
+</div>

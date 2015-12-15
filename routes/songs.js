@@ -2,6 +2,7 @@ var express = require('express');
 var request = require('request');
 require('dotenv').load();
 var Song = require('../models/song.js');
+var User = require('../models/user.js');
 
 // require API key
 var MM_API_KEY = process.env.MUSIXMATCH_API_KEY;
@@ -104,6 +105,51 @@ module.exports = function(app) {
         console.log("error in trackdata api: " + err);
       }
     });
+  });
+
+  app.post('/api/songs', function(req, res) {
+    User.findById(req.body.userId, function(err, user) {
+      var artist = req.body.artist;
+      var title = req.body.track;
+      var level = req.body.level;
+      if (!user) {
+        return res.status(400).send({ message: 'User not found' });
+      }
+      else {
+        // console.log("user is: ", user);
+        // console.log(req.body);
+        var song = new Song({
+            artist: artist, 
+            title: title,
+            level: level
+        });
+
+        song.save(function(err) {
+          console.log("level: ", level);
+          if (err) { 
+            console.log("here", err);
+            return res.status(400).send({err: err});
+          }
+          if (level === 'Bronze') {
+            user.songsBronze.push(song);
+          }
+          if (level === 'Silver') {
+            user.songsSilver.push(song);
+          }
+          else if (level === 'Gold') {
+            user.songsGold.push(song);
+          }
+          user.save(function(err) {
+            if (err) {
+              console.log("here", err);
+              return res.status(400).send({err: err});
+            }
+          });
+          res.send(user);
+        });
+      }
+    });
+
   });
 
 };

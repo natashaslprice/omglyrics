@@ -19,8 +19,10 @@ module.exports = function(app) {
       if (!user) {
         return res.status(400).send({ message: 'User not found' });
       }
-      user.email = req.body.email || user.email;
+      user.firstName = req.body.firstName || user.firstName;
+      user.lastName = req.body.lastName || user.lastName;
       user.username = req.body.username || user.username;
+      user.email = req.body.email || user.email;
       user.password = req.body.password || user.password;
       user.confirm = req.body.confirm || user.confirm;
       // console.log("here", user.email, user.username);

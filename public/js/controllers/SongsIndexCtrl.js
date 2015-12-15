@@ -5,8 +5,9 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('SongsIndexCtrl', ['$scope', '$http','$window', '$element', '$location', 'sharedAlbums', 'removeAccents', '$uibModal', '$log', function ($scope, $http, $window, $element, $location, sharedAlbums, removeAccents, $uibModal, $log) { 
+  .controller('SongsIndexCtrl', ['$scope', '$http','$window', '$element', '$location', 'sharedAlbums', 'removeAccents', '$uibModal', '$log', '$auth', function ($scope, $http, $window, $element, $location, sharedAlbums, removeAccents, $uibModal, $log, $auth) { 
     console.log("SongsIndexCtrl active");
+    
     // get albums from sharedAlbums factory
     $scope.albums = sharedAlbums.getAlbums();
     // console.log($scope.albums);
@@ -40,12 +41,12 @@ angular.module('myApp')
     $scope.getLyrics = function() {
       // console.log("clicked", this.track.name);
       // remove any accents from artists names
-      var trackArtist = removeAccents.removeDiacritics(this.track.artists[0].name);
+      $scope.trackArtist = removeAccents.removeDiacritics(this.track.artists[0].name);
       $scope.trackName = this.track.name;
       // $scope.trackName = sharedTrackName.setTrackName(trackName);
-      console.log(trackArtist, $scope.trackName);
+      console.log($scope.trackArtist, $scope.trackName);
       // send trackArtist and trackName into musixmatch api to get lyrics
-      $http.post('/api/lyrics', {artist: trackArtist, track: $scope.trackName})
+      $http.post('/api/lyrics', {artist: $scope.trackArtist, track: $scope.trackName})
         .success(function(response) {
           console.log(response);
           // get track uri numbers for spotify play button
@@ -160,7 +161,20 @@ angular.module('myApp')
           // console.log(count);
           // console.log($scope.numberOfBlanks);
           if (count === $scope.numberOfBlanks) {
-            //new code
+            
+            // create song
+            // find current user
+            $http.get('/api/me')
+              .then(function (data) {
+                if (!!data.data) {
+                  $scope.currentUser = data.data;
+                  $scope.currentUserId = $scope.currentUser._id;
+                  // if current user exists, run createSong function and send in user id
+                  createSong();
+                }
+              }); 
+            
+            // modal
             $scope.items = [$scope.trackName, $scope.level, $scope.trackUri[0]];
 
             $scope.animationsEnabled = true;
@@ -185,12 +199,6 @@ angular.module('myApp')
               });
             };
 
-            // $scope.toggleAnimation = function () {
-            //   $scope.animationsEnabled = !$scope.animationsEnabled;
-            // };
-
-            // end of new code
-
             // console.log("uri: ", $scope.trackUri);
             // $scope.player = "<iframe src='https://embed.spotify.com/?uri=spotify:track" + $scope.trackUri[0] + "' width='300' height='380' frameborder='0' allowtransparency='true'></iframe>";
             // $('#spotifyPlay').html($scope.player);
@@ -201,5 +209,18 @@ angular.module('myApp')
         }
       }
   	}; // end of checkLyrics function
+
+    // createSong function to be run if currentUser exists
+    var createSong = function() {
+      // if not silver or gold, assume bronze
+      if ($scope.level === undefined) {
+        $scope.level = "Bronze";
+      }
+      // post request to create new song
+      $http.post('/api/songs', { userId: $scope.currentUserId, artist: $scope.trackArtist, track: $scope.trackName, level: $scope.level })
+        .then(function(response) {
+          // console.log(response);
+        });
+      };
     
   }]); 
