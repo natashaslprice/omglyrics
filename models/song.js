@@ -6,21 +6,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var SongSchema = new Schema({
-    created_at: { 
-      type: Date, 
-      default: Date.now() 
-    },
-    artist: { 
-      type: String,
-      requried: true 
-    },
-    title: { 
-      type: String, 
-      required: true 
-    },
-    lyrics: {
-      type: String 
-    }
+    created_at: { type: Date, default: Date.now() },
+    artist: { type: String, requried: true },
+    title: { type: String, required: true },
+    level: { type: String }
 });
 
 // MIDDLEWARE

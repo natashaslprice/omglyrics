@@ -1,5 +1,22 @@
 angular.module('myApp')
 
+// current user factory
+.factory('Auth', ['$auth', function ($auth) {
+  return {
+    currentUser: function() {
+      var user = $auth.getPayload();
+      var currentUser = {
+        _id: user.sub,
+        email: user.email,
+        picture: user.picture,
+        displayName: user.displayName
+      };
+      return currentUser;
+    }
+  };
+}])
+
+// share album details
 .service('sharedAlbums', function() {
   return {
   	getAlbums: function() {
@@ -11,6 +28,7 @@ angular.module('myApp')
   };
 })
 
+// remove accents from artist names
 .factory('removeAccents', function() {
 
   return {

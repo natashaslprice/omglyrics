@@ -4,8 +4,8 @@
 
 'use strict';
 
-angular.module('myApp', ['ui.router',
-                         'myApp.controllers',
+angular.module('myApp', ['satellizer',
+                         'ui.router',
                          'ngSanitize',
                          'angular.filter',
                          'ui.bootstrap',
@@ -22,6 +22,11 @@ angular.module('myApp', ['ui.router',
         url: '/songs',
         templateUrl: 'templates/songs-index.html',
         controller: 'SongsIndexCtrl'
+      })
+      .state('leaderboard-index', {
+        url: '/leaderboard',
+        templateUrl: 'templates/leaderboard-index.html',
+        controller: 'LeaderboardIndexCtrl'
       });
 
     $urlRouterProvider.otherwise("/state1");

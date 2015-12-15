@@ -1,7 +1,7 @@
 <div class="container text-center">
 	<h1>Choose a level and a song...</h1>
 	<h4>
-	<div class="btn-group">
+	<div ng-show="currentUser" class="btn-group">
       <label class="btn btn-level btn-bronze" ng-model="value" uib-btn-radio="'Bronze'" value="Bronze" ng-change="newValue(value)">Bronze</label>
       <label class="btn btn-level btn-silver" ng-model="value" uib-btn-radio="'Silver'" value="Silver" ng-change="newValue(value)">Silver</label>
       <label class="btn btn-level btn-gold" ng-model="value" uib-btn-radio="'Gold'" value="Gold" ng-change="newValue(value)">Gold</label>

@@ -1,11 +1,42 @@
+body {
+	z-index: 0;
+}
+
 .jumbotron {
 	background-color: transparent;
 	text-align: center;
 }
 
+a {
+  cursor: pointer;
+}
+
+.navbar {
+  margin:0;
+}
+
+.dropdown-form {
+  padding: 17px;
+  width: 300px;
+  z-index: 1000;
+}
+
+
 .btn-landing {
 	width: 200px !important;
 	height: 200px !important;
+}
+
+#additionalFeaturesTitle {
+	height: 300px;
+}
+
+.additionalFeatures {
+	margin-bottom: 15px;
+	padding: 10px;
+	height: 65px;
+	background-color: #8DE8A4;
+	border-radius: 10px;
 }
 
 .btn-bronze {

@@ -1,42 +1,12 @@
 /*
- * CONTROLLERS
+ * SONGS PAGE CONTROLLER
  */
 
 'use strict';
 
-angular.module('myApp.controllers', [])
-  .controller('MainCtrl', ['$rootScope', '$scope', '$location', function ($rootScope, $scope, $location) {
-    // INITIALIZATION AND NAVBAR LOGIC
-  }])
-
-  // SONG SEARCH
-  .controller('LandingIndexCtrl', ['$scope', '$http', '$window', '$element', '$location', 'uniqueFilter', 'sharedAlbums', function ($scope, $http, $window, $element, $location, uniqueFilter, sharedAlbums) {
-    // function to search for books based on songs on submission of song-search form, get lyrics and post to page
-    $scope.searchForm = function(data) {
-      var artist = data.trim();
-      // send artist into spotify api and get artist id
-      $http.post('/api/artists', { artist: artist })
-        .success(function(response) {
-          // console.log(response);
-          // on success, redirect to songs page
-          $location.path('/songs');
-          // get response
-          var albumsOrdered = response;
-          // get rid of duplicate albums
-          var albums = uniqueFilter(albumsOrdered, 'name');
-          // console.log(albums);
-          // send albums into factory sharedAlbums
-          $scope.albums = sharedAlbums.setAlbums(albums);
-        })
-        .error(function(error) {
-          console.log("The error with the /api/artists call is: ", error);
-          $scope.landingError = "Sorry, we could not find that artist. Please try again with a different name.";
-        });
-    }; // end of searchForm function
-  }]) // end of LandingIndexCtrl
-
-
+angular.module('myApp')
   .controller('SongsIndexCtrl', ['$scope', '$http','$window', '$element', '$location', 'sharedAlbums', 'removeAccents', '$uibModal', '$log', function ($scope, $http, $window, $element, $location, sharedAlbums, removeAccents, $uibModal, $log) { 
+    console.log("SongsIndexCtrl active");
     // get albums from sharedAlbums factory
     $scope.albums = sharedAlbums.getAlbums();
     // console.log($scope.albums);
@@ -138,7 +108,7 @@ angular.module('myApp.controllers', [])
         .error(function(error) {
           console.log("The error with the /api/lyrics call is: ", error);
         });
-    };
+    }; // end of getLyrics function
     
 
 
@@ -158,7 +128,7 @@ angular.module('myApp.controllers', [])
         // checkApostrophe function
         checkApostrophe(indexArray, randomNumber, lyricsArray);
       }
-    };
+    }; // end of checkUnique function
 
     // checkApostrophe function 
     var checkApostrophe = function(indexArray, randomNumber, lyricsArray) {
@@ -173,7 +143,7 @@ angular.module('myApp.controllers', [])
       else {
         return;
       }
-    };
+    }; // end of checkApostrophe function
 
     // check lyrics when user presses play button
     $scope.checkLyrics = function() {
@@ -230,31 +200,6 @@ angular.module('myApp.controllers', [])
          elements[k].style.borderColor = "red"; 
         }
       }
-  };
+  	}; // end of checkLyrics function
     
-  }]) // end of SongsIndexCtrl
-
-  .controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, $sce) {
-    console.log(items);
-    // set trackname
-    $scope.trackName = items[0];
-    // set level
-    if (items[1] === undefined) {
-      $scope.level = "bronze";  
-    }
-    else {
-      $scope.level = items[1];
-    }
-    // set spotify player
-    // $scope.trackUri = items[2];
-    $scope.spotifyPlay = $sce.trustAsHtml("<iframe src='https://embed.spotify.com/?uri=spotify:track" + items[2] + "' width='300' height='380' frameborder='0' allowtransparency='true'></iframe>");
-    console.log($scope.spotifyPlay);
-    // $('#spotifyPlay').html($scope.player);
-
-    $scope.close = function () {
-      $uibModalInstance.dismiss('close');
-    };
-  });
-
-
-
+  }]); 

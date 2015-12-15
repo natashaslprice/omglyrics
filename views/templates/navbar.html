@@ -1,0 +1,85 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Song app</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Search for artist</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li ng-show="!currentUser" class="dropdown">
+          <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            Login
+          </a>
+          <div class="dropdown-menu dropdown-form">
+            <form>
+              <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" ng-model="user.email" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label for="">Password</label>
+                <input type="password" ng-model="user.password" class="form-control"/>
+              </div>
+              <button type="submit" ng-click="login()" class="btn btn-info">Log In</button>
+            </form>
+          </div>
+        </li>
+        <li ng-show="!currentUser" class="dropdown">
+          <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            Sign Up
+          </a>
+          <div class="dropdown-menu dropdown-form" style="padding:17px;">
+            <form>
+              <div class="form-group">
+                <label for="">First name</label>
+                <input type="text" ng-model="user.firstName" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label for="">Last Name</label>
+                <input type="text" ng-model="user.lastName" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label for="">Username</label>
+                <input type="text" ng-model="user.username" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" ng-model="user.email" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label for="">Password</label>
+                <input type="password" ng-model="user.password" class="form-control"/>
+              </div>
+              <div class="form-group">
+                <label for="">Confirm Password</label>
+                <input type="password" ng-model="user.confirm" class="form-control"/>
+              </div>
+              <button type="submit" ng-click="signup()" class="btn btn-info">Sign Up</button>
+            </form>
+          </div>
+        </li>
+        <li ng-show="currentUser" class="dropdown">
+          <a data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><span class="status">{{ currentUser.username }}</span><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/settings">Settings</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a ng-click="logout()">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div> <!-- /.navbar-collapse -->
+  </div> <!-- /.container-fluid -->
+</nav>
