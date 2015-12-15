@@ -1,4 +1,4 @@
-var express = require('express');
+  var express = require('express');
 var request = require('request');
 require('dotenv').load();
 var Song = require('../models/song.js');
@@ -124,6 +124,8 @@ module.exports = function(app) {
             level: level
         });
 
+        
+
         song.save(function(err) {
           console.log("level: ", level);
           if (err) { 
@@ -131,12 +133,36 @@ module.exports = function(app) {
             return res.status(400).send({err: err});
           }
           if (level === 'Bronze') {
+            // check song doesn't exist in user already
+            if (user.songsBronze.length > 0) {
+              for (var i = 0; i < user.songsBronze.length; i++) {
+                if (song.title == user.songsBronze[i].title) {
+                  return;
+                }
+              }
+            }
             user.songsBronze.push(song);
           }
           if (level === 'Silver') {
+            // check song doesn't exist in user already
+            if (user.songsSilver.length > 0) {
+              for (var j = 0; j < user.songsBronze.length; j++) {
+                if (song.title == user.songsBronze[j].title) {
+                  return;
+                }
+              }
+            }
             user.songsSilver.push(song);
           }
           else if (level === 'Gold') {
+            // check song doesn't exist in user already
+            if (user.songsGold.length > 0) {
+              for (var k = 0; k < user.songsBronze.length; k++) {
+                if (song.title == user.songsBronze[k].title) {
+                  return;
+                }
+              }
+            }
             user.songsGold.push(song);
           }
           user.save(function(err) {

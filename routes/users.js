@@ -8,12 +8,17 @@ var User = require('../models/user.js'),
 
 module.exports = function(app) {
 
+  // get one user
   app.get('/api/me', auth.ensureAuthenticated, function(req, res) {
     User.findById(req.userId, function(err, user) {
+      if (err) {
+        return res.status(401).send({ message: 'Could not find user' });
+      }
       res.send(user);
     });
   });
-
+  
+  // update user
   app.put('/api/me', auth.ensureAuthenticated, function(req, res) {
     User.findById(req.userId, function(err, user) {
       if (!user) {
@@ -32,6 +37,7 @@ module.exports = function(app) {
     });
   });
 
+  // check user on login
   app.post('/auth/login', function(req, res) {
     User.findOne({ email: req.body.email }, '+password', function(err, user) {
       if (!user) {
@@ -47,6 +53,7 @@ module.exports = function(app) {
     });
   });
 
+  // create user on signup
   app.post('/auth/signup', function(req, res) {
     User.findOne({ email: req.body.email }, function(err, existingUser) {
       if (existingUser) {
@@ -64,11 +71,24 @@ module.exports = function(app) {
       user.save(function(err) {
         if (err) { 
           console.log("here", err);
-        	return res.status(400).send({err: err});
+          return res.status(400).send({err: err});
         }
         console.log("here", auth.createJWT(user));
         res.send({ token: auth.createJWT(user) });
       });
     });
   });
+
+  // get all users
+  app.get('/api/users', function(req, res) {
+    User.find().exec(function(err, users) {
+      if (err) {
+        return res.status(401).send({ message: 'Could not get all users' });
+      }
+      res.send(users);
+    });
+  });
+
+
+
 };

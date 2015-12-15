@@ -1,1 +1,15 @@
-LEADERBOARD
+<div class="container">
+	<div class="col-md-6 col-md-offset 3">
+		<table id="leaderboardTable">
+			<tr>
+				<td>Ranking</td>
+				<td>Username</td>
+				<td>Points</td>
+			</tr>
+			<tr ng-repeat="leader in leaders track by $index" >
+				<td>{{ $index + 1 }}</td>
+				<td>{{ leader.username }}</td>
+				<td>{{ leader.points }}</td>
+			</tr>
+	</div>
+</div>

@@ -55,7 +55,7 @@ angular.module('myApp')
           // remove the ** words **
           response = response.replace(/\*[^\/]+$/g, ' ');
           // make lyrics into array, using spaces, commas, brackets and line breaks
-          var responseArray = response.replace( /\n/g, " " ).split(/[ ,().]+/);
+          var responseArray = response.replace( /\n/g, " " ).split(/[ ,().!]+/);
           // console.log(responseArray);
 
           // get no.of words to blank out based on level and length of response array
@@ -181,16 +181,16 @@ angular.module('myApp')
 
             $scope.open = function (size) {
               var modalInstance = $uibModal.open({
-                animation: $scope.animationsEnabled,
-                templateUrl: 'myModalContent.html',
-                controller: 'ModalInstanceCtrl',
-                size: size,
-                resolve: {
-                  items: function () {
-                    return $scope.items;
-                  }
+              animation: $scope.animationsEnabled,
+              templateUrl: 'myModalContent.html',
+              controller: 'ModalInstanceCtrl',
+              size: size,
+              resolve: {
+                items: function () {
+                  return $scope.items;
                 }
-              });
+              }
+            });
 
               modalInstance.result.then(function (selectedItem) {
                 $scope.selected = selectedItem;

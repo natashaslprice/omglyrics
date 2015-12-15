@@ -29,7 +29,7 @@ angular.module('myApp')
     $scope.signup = function() {
       $auth.signup($scope.user)
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
           $auth.setToken(response);
           $scope.isAuthenticated();
           $scope.user = {};
