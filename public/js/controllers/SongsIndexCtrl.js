@@ -12,6 +12,42 @@ angular.module('myApp')
     $scope.albums = sharedAlbums.getAlbums();
     // console.log($scope.albums);
 
+    // on view load, set first album as activated and get track names
+    $scope.$on('$viewContentLoaded', function() {
+      // set active album to first in array
+      $scope.activated = $scope.albums[0];
+      // run getTracks function on that album
+      var id = $scope.activated.id;
+      var name = $scope.activated.name;
+      var getTracksOfFirst = function(id, name) {
+        // console.log(id);
+        // get spotify album id from item that was clicked
+        var albumId = id;
+        // send album name to view
+        $scope.albumTitle = name;
+        // send spotify id into spotify api and get albums tracks
+        $http.post('/api/tracks', {id: albumId})
+          .success(function(response) {
+            // console.log(response);
+            // send tracks to view
+            $scope.tracks = response;
+          })
+          .error(function(error) {
+            console.log("The error with the /api/tracks call is: ", error);
+          });
+      };
+      getTracksOfFirst(id, name);
+    });
+
+    // set active album
+    $scope.activate = function(item) {
+      console.log(item);
+      $scope.activated = item;
+    };
+    $scope.isActive = function(item) {
+      return $scope.activated === item;
+     };
+
     // find if bronze silver or gold level selected
     $scope.value = 'Bronze';
     $scope.newValue = function(value) {
@@ -20,11 +56,12 @@ angular.module('myApp')
     };
 
     // on click of image, get tracks from spotify api
-    $scope.getTracks = function() {
+    $scope.getTracks = function(item) {
+      // console.log(item.id);
       // get spotify album id from item that was clicked
-      var albumId = this.album.id;
+      var albumId = item.id;
       // send album name to view
-      $scope.albumTitle = this.album.name;
+      $scope.albumTitle = item.name;
       // send spotify id into spotify api and get albums tracks
       $http.post('/api/tracks', {id: albumId})
         .success(function(response) {

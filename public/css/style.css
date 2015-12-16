@@ -2,6 +2,12 @@ body {
 	z-index: 0;
 }
 
+.landingContainer {
+	background-color: #DCF2EE;
+	padding: 0 50px; 
+	color: #00120C !important;
+}
+
 .jumbotron {
 	background-color: transparent;
 	text-align: center;
@@ -21,22 +27,22 @@ a {
   z-index: 1000;
 }
 
-
-.btn-landing {
-	width: 200px !important;
-	height: 200px !important;
+.btn-primary {
+	background-color: #01A38F !important;
 }
 
-#additionalFeaturesTitle {
-	height: 300px;
+.fa {
+	color: #01A38F;
 }
 
 .additionalFeatures {
-	margin-bottom: 15px;
+	/*margin: 15px;
 	padding: 10px;
-	height: 65px;
-	background-color: #8DE8A4;
+	height: 200px;
+	width: 200px;*/
+	background-color: #01A38F;
 	border-radius: 10px;
+	color: #DCF2EE !important;
 }
 
 .btn-bronze {
@@ -53,32 +59,73 @@ a {
 
 .btn-bronze, .btn-silver, .btn-gold {
 	color: white;
-	width: 100px;
-	height: 40px;
+	width: 70px;
+	height: 30px;
 }
 
 .btn-bronze.active, .btn-silver.active, .btn-gold.active {
-	font-size: 16px;
+	/*font-size: 16px;*/
 	font-weight: bold;
 	color: #262627;
 }
 
 .albumImage {
-	width: 120px;
-	height: 120px;
+	width: 80px;
+	height: 80px;
 }
 
-#albumTitle {
-	margin-top: 0px;
+.albumName {
+	padding-left: 20px;
+}
+
+.activeAlbum {
+  background-color: #01A38F;
 }
 
 .trackName {
 	font-size: 18px;
 }
 
+a, a:hover, a:active, a:visited {
+	color: #00120D;
+}
+
 #lyrics {
 	font-size: 18px;
 	line-height: 30px;
+}
+
+#albumsCol {
+	background-color: #DCF2EE;
+	border: solid 3px #00120C;
+	color: #00120D;
+}
+
+#songsCol {
+	background-color: #DCF2EE;
+	border: solid 3px #00120C;
+	border-left: none;
+	color: #00120D;
+}
+
+#lyricsCol {
+	background-color: #DCF2EE;
+	border: solid 3px #00120C;
+	border-left: none;
+	color: #00120D;
+}
+
+.songsDiv {
+	overflow: hidden;
+}
+
+.cols {
+	padding-bottom: 1000px;
+  margin-bottom: -1000px;
+}
+
+.internal {
+	margin: 10px;
 }
 
 #leaderboardTable {
