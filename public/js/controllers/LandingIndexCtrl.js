@@ -5,8 +5,21 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('LandingIndexCtrl', ['$scope', '$http', '$window', '$element', '$location', 'uniqueFilter', 'sharedAlbums', function ($scope, $http, $window, $element, $location, uniqueFilter, sharedAlbums) {
+  .controller('LandingIndexCtrl', ['$scope', '$http', '$window', '$element', '$location', 'uniqueFilter', 'sharedAlbums', '$anchorScroll', function ($scope, $http, $window, $element, $location, uniqueFilter, sharedAlbums, $anchorScroll) {
     console.log("LandingIndexCtrl active");
+    
+    // scroll to second section
+    $scope.gotoBottom = function() {
+      // get old location path
+      var old = $location.hash();
+      // set the location.hash to the id of the element to scroll to
+      $location.hash('landingBottom');
+      // call $anchorScroll()
+      $anchorScroll();
+      // make url clean
+      $location.hash(old);
+    };
+
     // function to search for books based on songs on submission of song-search form, get lyrics and post to page
     $scope.searchForm = function(data) {
       var artist = data.trim();

@@ -2,17 +2,6 @@ body {
 	z-index: 0;
 }
 
-.landingContainer {
-	background-color: #DCF2EE;
-	padding: 0 50px; 
-	color: #00120C !important;
-}
-
-.jumbotron {
-	background-color: transparent;
-	text-align: center;
-}
-
 a {
   cursor: pointer;
 }
@@ -27,19 +16,80 @@ a {
   z-index: 1000;
 }
 
-.btn-primary {
-	background-color: #01A38F !important;
+#landingTop {
+	height: 100vh;
+	background-color: #009C91; /*dark green*/
+	color: #EFEEE5; /*cream*/
+}
+
+#spotifyFaTop {
+	color: #EFEEE5;
+}
+
+#arrowsFa {
+	color: #EFEEE5;
+}
+
+#formRow {
+	margin-top: 150px;
+}
+
+#landingBottom {
+	height: 100vh;
+	background-color: #44CDC7; /*light green*/
+	color: #EFEEE5; /*cream*/
+}
+
+#instructionsRow {
+	padding-top: 100px;
 }
 
 .fa {
-	color: #01A38F;
+	color: #006A67; /*very dark green*/
 }
 
+.instructionsText {
+	padding-top: 30px;
+}
+
+#additionalFeaturesTitle {
+	margin-top: 50px;
+}
+
+
+
+
+
+.landingContainer, .leaderboardContainer {
+	background-color: #DCF2EE;
+	padding: 0 50px; 
+	color: #00120C !important;
+}
+
+.jumbotron {
+	background-color: transparent;
+	text-align: center;
+}
+
+
+
+
+
+.custom-error {
+	color: red;
+}
+
+.btn-primary, .btn-warning {
+	background-color: #01A38F !important;
+}
+
+
+
 .additionalFeatures {
-	/*margin: 15px;
+	margin: 15px;
 	padding: 10px;
 	height: 200px;
-	width: 200px;*/
+	width: 200px;
 	background-color: #01A38F;
 	border-radius: 10px;
 	color: #DCF2EE !important;

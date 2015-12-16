@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('SongsIndexCtrl', ['$scope', '$http','$window', '$element', '$location', 'sharedAlbums', 'removeAccents', '$uibModal', '$log', '$auth', function ($scope, $http, $window, $element, $location, sharedAlbums, removeAccents, $uibModal, $log, $auth) { 
+  .controller('SongsIndexCtrl', ['$scope', '$http','$window', '$element', '$location', 'sharedAlbums', 'removeAccents', '$uibModal', '$log', '$auth', '$sce', '$compile', function ($scope, $http, $window, $element, $location, sharedAlbums, removeAccents, $uibModal, $log, $auth, $sce, $compile) { 
     console.log("SongsIndexCtrl active");
     
     // get albums from sharedAlbums factory
@@ -85,7 +85,7 @@ angular.module('myApp')
       // send trackArtist and trackName into musixmatch api to get lyrics
       $http.post('/api/lyrics', {artist: $scope.trackArtist, track: $scope.trackName})
         .success(function(response) {
-          console.log(response);
+          // console.log(response);
           // get track uri numbers for spotify play button
           $scope.trackUri = response.match(/:[^:]*$/g);
           // console.log("here", $scope.trackUri);
@@ -109,7 +109,7 @@ angular.module('myApp')
           else {
             $scope.numberOfBlanks = Math.floor(0.05 * responseArray.length);
           }
-          console.log($scope.numberOfBlanks);
+          // console.log($scope.numberOfBlanks);
 
           // set array of indexes to empty
           var blanksIndexes = [];
@@ -132,13 +132,21 @@ angular.module('myApp')
           // console.log(responseArray);
           
           // make array a string again
-          var stringLyrics = responseArray.join(" ");
-          console.log(stringLyrics);
+          $scope.stringLyrics = $sce.trustAsHtml("<p>" + responseArray.join(" ") + "</p>");
+          // $scope.stringLyrics = $sce.trustAsHtml("<a ng-click='someFunction()' href=''>Google</a>");
+          console.log($scope.stringLyrics);
+
+          // $scope.someFunction = function() {
+          //   console.log("OMG");
+          // };
+          // send to directive
+
           
           // replace the line breaks with <br>
           // var stringLyricsBreak = stringLyrics.replace(/\n/g, '<br>'); 
-          $('#lyrics').html(stringLyrics);
-          // $scope.lyrics = stringLyrics;
+          
+          // $scope.lyrics = stringLyrics.html($compile(stringLyrics));
+          // $scope.$apply();
 
           // show play button
           $scope.showButton = true;
@@ -173,7 +181,7 @@ angular.module('myApp')
       // if word not blank or ... and no apostrophe in the word
       if (lyricsArray[randomNumber] !== " " && lyricsArray[randomNumber] !== "" && lyricsArray[randomNumber] !== "..." && lyricsArray[randomNumber].indexOf('\'') <= 0) {
         // then replace word with input, with data-id same as word
-        var inputField = "<input type='text' class='lyricsInputs' data-id='" + lyricsArray[randomNumber] + "'>";
+        var inputField = "<input type='text' ng-blur='checkLyrics($event)' class='lyricsInputs' data-id='" + lyricsArray[randomNumber] + "'>";
         lyricsArray[randomNumber] = lyricsArray[randomNumber].replace(lyricsArray[randomNumber], inputField);
         // and push that number into number array
         indexArray.push(randomNumber);
@@ -183,69 +191,65 @@ angular.module('myApp')
       }
     }; // end of checkApostrophe function
 
+    var count = 0;
     // check lyrics when user presses play button
-    $scope.checkLyrics = function() {
-      // find lyricsInputs class and check whether inputs == data-id
-      var elements = $element.find('.lyricsInputs');
-      // console.log(elements);
+    $scope.checkLyrics = function(event) {
+      // console.log("run", event);
       // for each element, if correct show green box and increase count
-      var count = 0;
-      for (var k = 0; k < elements.length; k++) {
-        // console.log("data-id: ", elements[k].dataset.id, "value: ", elements[k].value);
-        if (elements[k].dataset.id.trim().toLowerCase() == elements[k].value.trim().toLowerCase()) {
-          elements[k].style.borderColor = "green";
-          count ++;
-          // console.log(count);
-          // console.log($scope.numberOfBlanks);
-          if (count === $scope.numberOfBlanks) {
-            
-            // create song
-            // find current user
-            $http.get('/api/me')
-              .then(function (data) {
-                if (!!data.data) {
-                  $scope.currentUser = data.data;
-                  $scope.currentUserId = $scope.currentUser._id;
-                  // if current user exists, run createSong function and send in user id
-                  createSong();
-                }
-              }); 
-            
-            // modal
-            $scope.items = [$scope.trackName, $scope.level, $scope.trackUri[0]];
-
-            $scope.animationsEnabled = true;
-
-            $scope.open = function (size) {
-              var modalInstance = $uibModal.open({
-              animation: $scope.animationsEnabled,
-              templateUrl: 'myModalContent.html',
-              controller: 'ModalInstanceCtrl',
-              size: size,
-              resolve: {
-                items: function () {
-                  return $scope.items;
-                }
-              }
-            });
-
-              modalInstance.result.then(function (selectedItem) {
-                $scope.selected = selectedItem;
-              }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-              });
-            };
-
-            // console.log("uri: ", $scope.trackUri);
-            // $scope.player = "<iframe src='https://embed.spotify.com/?uri=spotify:track" + $scope.trackUri[0] + "' width='300' height='380' frameborder='0' allowtransparency='true'></iframe>";
-            // $('#spotifyPlay').html($scope.player);
-          }
-        }
-        else {
-         elements[k].style.borderColor = "red"; 
-        }
+      if (event.currentTarget.attributes[3].value.trim().toLowerCase() == event.currentTarget.value.trim().toLowerCase()) {
+        event.currentTarget.style.borderColor = "green";
+        count ++;
       }
-  	}; // end of checkLyrics function
+      else {
+       event.currentTarget.style.borderColor = "red"; 
+      }
+    };
+    console.log(count);
+
+    $scope.checkCount = function() {
+      console.log($scope.numberOfBlanks);
+      console.log(count);
+      if (count === $scope.numberOfBlanks) {
+
+        // create song
+        // find current user
+        $http.get('/api/me')
+          .then(function (data) {
+            if (!!data.data) {
+              $scope.currentUser = data.data;
+              $scope.currentUserId = $scope.currentUser._id;
+              // if current user exists, run createSong function and send in user id
+              createSong();
+            }
+          }); 
+        
+        // modal
+        $scope.items = [$scope.trackName, $scope.level, $scope.trackUri[0]];
+
+        $scope.animationsEnabled = true;
+
+        $scope.open = function (size) {
+          var modalInstance = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: size,
+            resolve: {
+              items: function () {
+                return $scope.items;
+              }
+            }
+          });
+
+          modalInstance.result.then(function (selectedItem) {
+            $scope.selected = selectedItem;
+          }, function () {
+            $log.info('Modal dismissed at: ' + new Date());
+          });
+        };
+      }
+    }; // end of checkCount function
+
 
     // createSong function to be run if currentUser exists
     var createSong = function() {
@@ -261,3 +265,67 @@ angular.module('myApp')
       };
     
   }]); 
+    // ORIGINAL CHECK LYRICS FUNCTION - WORKS FROM PLAY BUTTON
+   //  // check lyrics when user presses play button
+   //  $scope.checkLyrics = function() {
+   //    // find lyricsInputs class and check whether inputs == data-id
+   //    var elements = $element.find('.lyricsInputs');
+   //    // console.log(elements);
+   //    // for each element, if correct show green box and increase count
+   //    var count = 0;
+   //    for (var k = 0; k < elements.length; k++) {
+   //      // console.log("data-id: ", elements[k].dataset.id, "value: ", elements[k].value);
+   //      if (elements[k].dataset.id.trim().toLowerCase() == elements[k].value.trim().toLowerCase()) {
+   //        elements[k].style.borderColor = "green";
+   //        count ++;
+   //        // console.log(count);
+   //        // console.log($scope.numberOfBlanks);
+   //        if (count === $scope.numberOfBlanks) {
+            
+   //          // create song
+   //          // find current user
+   //          $http.get('/api/me')
+   //            .then(function (data) {
+   //              if (!!data.data) {
+   //                $scope.currentUser = data.data;
+   //                $scope.currentUserId = $scope.currentUser._id;
+   //                // if current user exists, run createSong function and send in user id
+   //                createSong();
+   //              }
+   //            }); 
+            
+   //          // modal
+   //          $scope.items = [$scope.trackName, $scope.level, $scope.trackUri[0]];
+
+   //          $scope.animationsEnabled = true;
+
+   //          $scope.open = function (size) {
+   //            var modalInstance = $uibModal.open({
+   //            animation: $scope.animationsEnabled,
+   //            templateUrl: 'myModalContent.html',
+   //            controller: 'ModalInstanceCtrl',
+   //            size: size,
+   //            resolve: {
+   //              items: function () {
+   //                return $scope.items;
+   //              }
+   //            }
+   //          });
+
+   //            modalInstance.result.then(function (selectedItem) {
+   //              $scope.selected = selectedItem;
+   //            }, function () {
+   //              $log.info('Modal dismissed at: ' + new Date());
+   //            });
+   //          };
+
+   //          // console.log("uri: ", $scope.trackUri);
+   //          // $scope.player = "<iframe src='https://embed.spotify.com/?uri=spotify:track" + $scope.trackUri[0] + "' width='300' height='380' frameborder='0' allowtransparency='true'></iframe>";
+   //          // $('#spotifyPlay').html($scope.player);
+   //        }
+   //      }
+   //      else {
+   //       elements[k].style.borderColor = "red"; 
+   //      }
+   //    }
+  	// }; // end of checkLyrics function

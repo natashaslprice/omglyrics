@@ -20,8 +20,15 @@ module.exports = function(app) {
     // request artist data from spotify api
     request(artistQuery, function(err, response, body){
       if (!err && response.statusCode == 200) {
-        // get spotify id
         var data = JSON.parse(body);
+        // console.log("number:", data.artists.total);
+        // check that artists exist
+        var numberOfArtists = data.artists.total;
+        if (numberOfArtists === 0) {
+          console.log("error in artists api: no artists found");
+          return res.status(401).send("error");
+        }
+        // get spotify id
         var artistId = data.artists.items[0].id;
         // console.log("id: ", artistId);
         
@@ -42,6 +49,7 @@ module.exports = function(app) {
         }
       else {
         console.log("error in artists api: " + err);
+        return res.status(401).send({ message: err.message });
       }
     });
   });
@@ -146,8 +154,8 @@ module.exports = function(app) {
           if (level === 'Silver') {
             // check song doesn't exist in user already
             if (user.songsSilver.length > 0) {
-              for (var j = 0; j < user.songsBronze.length; j++) {
-                if (song.title == user.songsBronze[j].title) {
+              for (var j = 0; j < user.songsSilver.length; j++) {
+                if (song.title == user.songsSilver[j].title) {
                   return;
                 }
               }
@@ -157,8 +165,8 @@ module.exports = function(app) {
           else if (level === 'Gold') {
             // check song doesn't exist in user already
             if (user.songsGold.length > 0) {
-              for (var k = 0; k < user.songsBronze.length; k++) {
-                if (song.title == user.songsBronze[k].title) {
+              for (var k = 0; k < user.songsGold.length; k++) {
+                if (song.title == user.songsGold[k].title) {
                   return;
                 }
               }

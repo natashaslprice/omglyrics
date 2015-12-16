@@ -1,58 +1,70 @@
-<div class="landingContainer">
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<h1 class="text-center">Do you know the words?</h1>
-			<hr>
-			<form class="form-group">
-				<!-- <label>Give me the name of an artist you like...</label> -->
-				<input type="text" ng-model="artist" class="form-control" placeholder="Artist Name" required>
-				<br>
-				<input type="submit" ng-click="searchForm(artist)" class="btn btn-primary pull-right" value="Search">
-			</form>
-			<div class="text-center">{{ landingError }}</div>
+<section id="landingTop">
+	<div class="jumbotron text-center">
+		<h1>Do you know the words?</h1>
+		<h3>Those songs you sing along to... do you REALLY know the words?</h3>
+		<h3>Test yourself to find out!</h3>
+		<br><br>
+		<div class="col-md-4 col-md-offset-4">
+			<i id="spotifyFaTop" class="fa fa-5x fa-spotify"></i>
+			<h4>Sign in to Spotify on your device to play</h4>
 		</div>
-	</div> <!-- end of row -->
-	<br><br><br>
+	</div>
+	<div id="formRow" class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<form>	
+				<div class="input-group">
+			   	<input type="text" ng-model="artist" class="form-control" placeholder="Enter artist name here..." autofocus required>
+			   	<span class="input-group-btn">
+			      <input type="submit" ng-click="searchForm(artist)" class="btn btn-primary" value="Search">
+			   	</span>
+				</div>
+			</form>
+			<div class="text-center custom-error-landing">{{ landingError }}</div>
+		</div>
+	</div>
+	<br><br>
 	<div class="row text-center">
+		<div class="col-md-4 col-md-offset-4">
+			<a ng-click="gotoBottom()"><i id="arrowsFa" class="fa fa-5x fa-angle-double-down"></i></a>
+		</div>
+	</div>
+</section>
+
+<section id="landingBottom">
+	<div id="instructionsRow" class="row text-center">
 		<div class="col-md-3">
 			<i class="fa fa-5x fa-spotify"></i>
-			<h4>Sign in to Spotify</h4>
+			<h4 class="instructionsText">Sign in to Spotify</h4>
 		</div>
 		<div class="col-md-3">
 			<i class="fa fa-5x fa-commenting"></i>
-			<h4>Think of an artist you sing along to</h4>
+			<h4 class="instructionsText">Think of an artist you<br>sing along to and<br>search for their tracks</h4>
 		</div>
 		<div class="col-md-3">
 			<i class="fa fa-5x fa-question"></i>
-			<h4>Choose a track and see if you know the words</h4>
+			<h4 class="instructionsText">Choose a track and<br>see if you<br>know the words</h4>
 		</div>
 		<div class="col-md-3">
 			<i class="fa fa-5x fa-music"></i>
-			<h4>If you do, enjoy the song!</h4>
+			<h4 class="instructionsText">If you do,<br>listen and enjoy!</h4>
 		</div>
 	</div> <!-- end of row -->
-	<br><br><br>
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3 text-center" id="additionalFeaturesTitle">
-			<h1>Sign up for these awesome additional features</h1>
+	<div class="row text-center">
+		<div class="col-md-8 col-md-offset-2 text-center">
+			<h1 id="additionalFeaturesTitle">Sign up to get these awesome additional features:</h1>
 		</div>
-	</div>
-	<div class="row">
-		<div class="text-center additionalFeatures">
-			<h4>Test yourself with the harder Silver and Gold levels! Do you REALLY know the words?</h4>
+		<div class="col-md-4">
+			<i class="fa fa-5x fa-plus"></i>
+			<h4 class="instructionsText">Test yourself with<br>the harder Silver and<br>Gold levels!<br>Do you REALLY know<br>the words?</h4>
 		</div>
-	</div>
-	<div class="row">
-		<div class="text-center additionalFeatures">
-			<h4>Keep track of which songs you know, and collect as many badges as you can</h4>
+		<div class="col-md-4">
+			<i class="fa fa-5x fa-bars"></i>
+			<h4 class="instructionsText">Keep track of which<br> songs you know, and collect as many badges as you can</h4>
 		</div>
-		<div class="text-center additionalFeatures">
-			<h4>Share your badges with friends on facebook, and see if you can collect more badges than them</h4>
+		<div class="col-md-4">
+			<i class="fa fa-5x fa-trophy"></i>
+			<h4 class="instructionsText">Try and get on to our overall leaderboard</h4>
 		</div>
-	</div>
-	<div class="row">
-		<div class="text-center additionalFeatures">
-			<h4 class="additionalFeatures">Try and get on to our overall leaderboard</h4>
-		</div>
-	</div>
-</div> <!-- end of container -->
+	</div> <!-- end of row -->
+	<div class="btn-toolbar"><a data-toggle="modal" data-target="#signup-modal" class="btn btn-lg btn-info">Sign up now!</a></div>
+</section>

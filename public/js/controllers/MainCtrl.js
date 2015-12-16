@@ -5,7 +5,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('MainCtrl', ['$scope', '$location', '$auth', '$http', function ($scope, $location, $auth, $http) {
+  .controller('MainCtrl', ['$scope', '$location', '$auth', '$http', '$window', function ($scope, $location, $auth, $http, $window) {
     console.log("MainCtrl active");
     // LOGIN/REGISTER
     $scope.user = {};
@@ -26,6 +26,8 @@ angular.module('myApp')
 
     $scope.isAuthenticated();
 
+    $scope.email = '';
+
     $scope.signup = function() {
       $auth.signup($scope.user)
         .then(function(response) {
@@ -33,6 +35,7 @@ angular.module('myApp')
           $auth.setToken(response);
           $scope.isAuthenticated();
           $scope.user = {};
+          $window.location.reload();
         })
         .catch(function(response) {
           console.log(response);
