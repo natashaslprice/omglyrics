@@ -97,7 +97,12 @@ a {
 }
 
 #instructionsRow {
-	padding-top: 100px;
+	padding-top: 20px;
+}
+
+#instructionsRow > .faCol {
+	padding: 0 !important;
+	margin: 0 !important;
 }
 
 .fa {
@@ -108,13 +113,16 @@ a {
 	padding-top: 30px;
 }
 
-#additionalFeaturesTitle {
-	margin-top: 50px;
+.additionalFeaturesDiv {
+	padding-top: 100px;
+}
+
+#featuresTitle {
 	margin-bottom: 50px;
 }
 
 #signUpBtnDivBottom {
-	margin-top: 70px;
+	margin-top: 40px;
 }
 
 #signUpBtnBottom, #modalBtn, #updateBtn, #signupBtn, #loginBtn, #signupBtnModal {
@@ -125,6 +133,10 @@ a {
 #signUpBtnBottom:hover {
 	background-color: #EFEEE5; /*cream*/
 	color: #006A67; /*very dark green*/
+}
+
+.titles {
+	font-family: 'Nunito', sans-serif;
 }
 
 #songsSection {
@@ -138,6 +150,7 @@ a {
 	width: 100%;
 	text-align: center;
 	padding: 15px;
+	font-family: 'Nunito', sans-serif;
 }
 
 .albumImage {
