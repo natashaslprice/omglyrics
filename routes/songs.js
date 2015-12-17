@@ -106,7 +106,7 @@ module.exports = function(app) {
           }
           else {
             console.log("error in lyrics api: " + err);
-          }
+          } 
         });
       }
       else {
