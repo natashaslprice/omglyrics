@@ -35,6 +35,20 @@ angular.module('myApp')
           $auth.setToken(response);
           $scope.isAuthenticated();
           $scope.user = {};
+        })
+        .catch(function(response) {
+          console.log(response);
+        });
+    };
+
+    // sign up from modal
+    $scope.signupFromModal = function() {
+      $auth.signup($scope.user)
+        .then(function(response) {
+          // console.log(response);
+          $auth.setToken(response);
+          $scope.isAuthenticated();
+          $scope.user = {};
           $window.location.reload();
         })
         .catch(function(response) {

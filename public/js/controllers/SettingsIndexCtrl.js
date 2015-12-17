@@ -14,12 +14,14 @@ angular.module('myApp')
       // console.log($scope.user);
     });
 
+    $scope.email = '';
+    
     // edit user settings
     $scope.editSettings = function(user) {
 	    $http.put('/api/me', user)
 	    	.success(function(data) {
 	    		console.log("successfully updated");
-	    		$location.path("/profile");
+	    		$location.path("/");
 	    	})
 	    	.error(function(error) {
 	    		console.log(error);

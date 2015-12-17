@@ -33,16 +33,14 @@ angular.module('myApp')
     return {
         restrict: "A",
         link: function(scope, element, attributes) {
-            console.log("in link", attributes);
             var expression = $sce.parseAsHtml(attributes.compileHtml);
-            console.log(expression);
             var getResult = function() {
                 return expression(scope);
             };
             scope.$watch(getResult, function(newValue) {
                 var linker = $compile(newValue);
                 element.append(linker(scope));
-                console.log(newValue);
+                // console.log(newValue);
             });
         }
     };

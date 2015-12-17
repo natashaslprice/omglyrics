@@ -1,79 +1,70 @@
-<div class="songsDiv">
-	
-<div class="col-md-3 cols" id="albumsCol">
-	<div class="internal">
-		<div class="row">
-			<h5>Step 1: Choose an album</h5>
-			<br>
-			<table>
-				<tr ng-repeat="album in albums" ng-click="">
-					<td ng-click="getTracks(album); activate(album)" ng-class="{activeAlbum: isActive(album)}"><img ng-src="{{ album.images[0].url }}" class="albumImage">   <strong>{{ album.name }}</strong></td>
-				</tr>
-			</table>
-		</div>
-	</div>
-</div>
-<div class="col-md-4 cols" id="songsCol">
-	<div class="internal">
-		<div class="row" ng-show="currentUser">
-			<h5>Step 2: Choose a level</h5>
-			<br>
-			<h5>
-			<div ng-show="currentUser" class="btn-group">
-	      <label class="btn btn-level btn-bronze" ng-model="value" uib-btn-radio="'Bronze'" value="Bronze" ng-change="newValue(value)">Bronze</label>
-	      <label class="btn btn-level btn-silver" ng-model="value" uib-btn-radio="'Silver'" value="Silver" ng-change="newValue(value)">Silver</label>
-	      <label class="btn btn-level btn-gold" ng-model="value" uib-btn-radio="'Gold'" value="Gold" ng-change="newValue(value)">Gold</label>
-		  </div>
-			</h5>
-		</div>
-		<hr>
-		<div class="row">
-			<h5>Step 3: Choose a song</h5>
-			<br>
-			<ol>
-				<div ng-repeat="track in tracks">
-					<li class="trackName"><a href="#" ng-click="getLyrics()">{{ track.name }}</a></li>
-				</div>
-			</ol>
-		</div>
-	</div>
-</div>
-<div class="col-md-5 cols" id="lyricsCol">
-	<div class="internal">
-		<h5>Step 4: Know the lyrics!</h5>
-		<br>
-		<div compile-html="stringLyrics"></div>
-		<br>
-		<button class="btn btn-default pull-right" ng-show="showButton" ng-click="checkCount(); open()">Play!</button>
-	</div>
-</div>
-
-<br><br><br><br><br><br><br><br>
-<div class="container">
-	
-	<br><br>
-	<div class="container">
-		<hr>
-		<div class="row">
-			<div class="col-sm-8 col-sm-offset-2">
+<div id="songsSection">
+	<div class="col-md-3 cols" id="albumsCol">
+		<div class="internal">
+			<div class="row">
+				<h5 class="songsSteps">Step 1: Choose an album</h5>
+				<br>
+				<table>
+					<tr ng-repeat="album in albums" ng-click="">
+						<td ng-click="getTracks(album); activate(album)" ng-class="{activeAlbum: isActive(album)}"><img ng-src="{{ album.images[0].url }}" class="albumImage">   <strong>{{ album.name }}</strong></td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
-
-	<div>
-    <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Congratulations! You have earned the {{ level }} badge for {{ trackName }} {{trackUri}}</h3>
-        </div>
-        <div class="modal-body text-center">
-        	<div ng-bind-html="spotifyPlay"></div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-warning" type="button" ng-click="close()">Close</button>
-        </div>
-    </script>
+	<div class="col-md-4 cols" id="songsCol">
+		<div class="internal">
+			<div class="row" ng-show="currentUser">
+				<h5 class="songsSteps">Step 2: Choose a level</h5>
+				<h5 class="text-center">
+				<div ng-show="currentUser" class="btn-group">
+		      <label class="btn btn-level btn-bronze" ng-model="value" uib-btn-radio="'Bronze'" value="Bronze" ng-change="newValue(value)">Bronze</label>
+		      <label class="btn btn-level btn-silver" ng-model="value" uib-btn-radio="'Silver'" value="Silver" ng-change="newValue(value)">Silver</label>
+		      <label class="btn btn-level btn-gold" ng-model="value" uib-btn-radio="'Gold'" value="Gold" ng-change="newValue(value)">Gold</label>
+			  </div>
+				</h5>
+			</div>
+			<div class="row">
+				<h5 class="songsSteps" ng-show="currentUser">Step 3: Choose a song</h5>
+				<h5 class="songsSteps" ng-show="!currentUser">Step 2: Choose a song</h5>
+				<br>
+				<ol>
+					<div ng-repeat="track in tracks">
+						<li class="trackName"><a class="trackNameAs" href="#" ng-click="getLyrics()">{{ track.name }}</a></li>
+					</div>
+				</ol>
+			</div>
+		</div>
 	</div>
+	<div class="col-md-5 cols" id="lyricsCol">
+		<div class="internal">
+			<div class="row">
+				<h5 class="songsSteps" ng-show="currentUser">Step 4: Know the lyrics!</h5>
+				<h5 class="songsSteps" ng-show="!currentUser">Step 3: Know the lyrics!</h5>
+				<br>
+				<div id="lyrics" compile-html="stringLyrics"></div>
+				<br>
+				<button id="playBtn" class="btn" ng-show="showButton" ng-click="checkCount(); open()">Play!</button>
+			</div>
+		</div>
+	</div>
+	
 </div>
+<!--  modal -->
+<div>
+  <script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Congratulations! You have earned the {{ level }} badge for {{ trackName }} {{trackUri}}</h3>
+    </div>
+    <div class="modal-body text-center">
+    	<div ng-bind-html="spotifyPlay"></div>
+    </div>
+    <div class="modal-footer">
+      <button id="modalBtn" class="btn" type="button" ng-click="close()">Close</button>
+    </div>
+  </script>
 </div>
+
+
 
 

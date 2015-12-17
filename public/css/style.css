@@ -1,5 +1,7 @@
 body {
 	z-index: 0;
+	background-color: #ECE8DD; /*near white*/
+	font-family: 'Quicksand', sans-serif;
 }
 
 a {
@@ -8,6 +10,43 @@ a {
 
 .navbar {
   margin:0;
+}
+
+/* navbar */
+.navbar-default {
+  background-color: #44CDC7; /*light green*/
+  border-color: #44CDC7;
+  border-radius: 0px;
+}
+/* title */
+.navbar-default .navbar-brand {
+    color: #006A67; /*very dark green*/
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #006A67; /*very dark green*/
+}
+/* link */
+.navbar-default .navbar-nav > li > a {
+    color: #006A67; /*very dark green*/
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #EFEEE5; /*cream*/
+}
+.navbar-default .navbar-nav > .open > a, 
+.navbar-default .navbar-nav > .open > a:hover, 
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #EFEEE5; /*cream*/
+    background-color: #44CDC7; /*light green*/
+}
+/* mobile version */
+.navbar-default .navbar-toggle {
+    border-color: #EFEEE5; /*cream*/
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #EFEEE5; /*cream*/
 }
 
 .dropdown-form {
@@ -20,6 +59,12 @@ a {
 	height: 100vh;
 	background-color: #009C91; /*dark green*/
 	color: #EFEEE5; /*cream*/
+	font-family: 'Nunito', sans-serif;
+}
+
+.jumbotron {
+	background-color: transparent;
+	text-align: center;
 }
 
 #spotifyFaTop {
@@ -34,10 +79,21 @@ a {
 	margin-top: 150px;
 }
 
+#searchArtistBtn {
+	background-color: #006A67; /*very dark green*/
+	color: #EFEEE5; /*cream*/
+}
+
+#searchArtistBtn:hover {
+	background-color: #EFEEE5; /*cream*/
+	color: #006A67; /*very dark green*/
+}
+
 #landingBottom {
 	height: 100vh;
 	background-color: #44CDC7; /*light green*/
 	color: #EFEEE5; /*cream*/
+	font-family: 'Nunito', sans-serif;
 }
 
 #instructionsRow {
@@ -54,45 +110,80 @@ a {
 
 #additionalFeaturesTitle {
 	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
-
-
-
-
-.landingContainer, .leaderboardContainer {
-	background-color: #DCF2EE;
-	padding: 0 50px; 
-	color: #00120C !important;
+#signUpBtnDivBottom {
+	margin-top: 70px;
 }
 
-.jumbotron {
-	background-color: transparent;
+#signUpBtnBottom, #modalBtn, #updateBtn, #signupBtn, #loginBtn, #signupBtnModal {
+	background-color: #006A67; /*very dark green*/
+	color: #EFEEE5; /*cream*/
+}
+
+#signUpBtnBottom:hover {
+	background-color: #EFEEE5; /*cream*/
+	color: #006A67; /*very dark green*/
+}
+
+#songsSection {
+	color: #292827; /*dark grey text*/
+}
+
+.songsSteps {
+	background-color: #009C91; /*dark green*/
+	color: #EFEEE5; /*cream*/;
+	height: 50px;
+	width: 100%;
 	text-align: center;
+	padding: 15px;
 }
 
-
-
-
-
-.custom-error {
-	color: red;
+.albumImage {
+	width: 80px;
+	height: 80px;
 }
 
-.btn-primary, .btn-warning {
-	background-color: #01A38F !important;
+.albumName {
+	padding-left: 20px;
+	color: #292827 !important; /*dark grey text*/
 }
 
+.activeAlbum {
+  background-color: #44CDC7; /*light green*/
+}
 
+.trackName {
+	font-size: 18px;
+}
 
-.additionalFeatures {
-	margin: 15px;
-	padding: 10px;
-	height: 200px;
-	width: 200px;
-	background-color: #01A38F;
-	border-radius: 10px;
-	color: #DCF2EE !important;
+.trackNameAs {
+	color: #292827 !important; /*dark grey text*/
+}
+
+.trackNameAs:hover, .trackNameAs:active {
+	color: #44CDC7 !important; /*light green*/
+}
+
+#lyrics {
+	font-size: 18px;
+	line-height: 30px;
+}
+
+#playBtn {
+	background-color: #006A67; /*very dark green*/
+	color: #EFEEE5; /*cream*/
+	width: 100%;
+}
+
+#playBtn:hover, #modalBtn:hover, #updateBtn:hover, #signupBtn:hover, #loginBtn:hover, #signupBtnModal:hover {
+	background-color: #44CDC7; /*light green*/
+	color: #EFEEE5; /*cream*/
+}
+
+.btn-level {
+	margin: 10px;
 }
 
 .btn-bronze {
@@ -119,68 +210,70 @@ a {
 	color: #262627;
 }
 
-.albumImage {
-	width: 80px;
-	height: 80px;
+#leaderboardSection {
+	height: 100hv;
 }
 
-.albumName {
-	padding-left: 20px;
-}
-
-.activeAlbum {
-  background-color: #01A38F;
-}
-
-.trackName {
+#leaderboardTable {
+	width: 100%;
 	font-size: 18px;
 }
 
-a, a:hover, a:active, a:visited {
-	color: #00120D;
+#topRow > td {
+	background-color: #009C91; /*dark green*/
+	padding: 10px;
+	color: #EFEEE5; /*cream*/
+	text-align: center;
 }
 
-#lyrics {
+.otherRows > td {
+	background-color: #44CDC7; /*light green*/
+	padding: 10px;
+	color: #EFEEE5; /*cream*/
+	text-align: center;
+	border-bottom: solid 1px #EFEEE5;
+}
+
+#profileSection {
 	font-size: 18px;
-	line-height: 30px;
 }
 
-#albumsCol {
-	background-color: #DCF2EE;
-	border: solid 3px #00120C;
-	color: #00120D;
+#profileSection > h1 {
+	color: #292827; /*dark grey text*/
 }
 
-#songsCol {
-	background-color: #DCF2EE;
-	border: solid 3px #00120C;
-	border-left: none;
-	color: #00120D;
+.nav-tabs > li > a {
+	background-color: #009C91 !important; /*dark green*/
 }
 
-#lyricsCol {
-	background-color: #DCF2EE;
-	border: solid 3px #00120C;
-	border-left: none;
-	color: #00120D;
+.nav-tabs > li > a, .nav-tabs > li.active > a {
+	color: #EFEEE5 !important; /*cream*/
 }
 
-.songsDiv {
-	overflow: hidden;
+.nav-tabs > li.active > a {
+	background-color: #44CDC7 !important; /*light green*/
 }
 
-.cols {
-	padding-bottom: 1000px;
-  margin-bottom: -1000px;
+.tab-pane {
+	background-color: #44CDC7 !important; /*light green*/
+	color: #EFEEE5; /*cream*/
+	padding: 10px;
 }
+
+.custom-error {
+	color: red;
+}
+
+
+
+
+
+
 
 .internal {
 	margin: 10px;
 }
 
-#leaderboardTable {
-	width: 100%;
-}
 
 footer {
 	position: fixed;

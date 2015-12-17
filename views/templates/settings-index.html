@@ -1,11 +1,11 @@
-<div class="container">
+<section id="settingsSection">
   <div class="row">
-    <div class="col-sm-3"><br/>
-    </div>
-    <div class="col-sm-9">
-    <h4>Hi {{user.firstName}}! You can update your settings here:</h4>
-    <hr>
-      <form>
+    <h1 class="text-center">Update your settings here</h1>
+  </div>
+  <br><br>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <form novalidate name="myForm">
       	<div class="form-group">
           <label for="">First name</label>
           <input type="text" ng-model="user.firstName" class="form-control"/>
@@ -20,7 +20,10 @@
         </div>
         <div class="form-group">
           <label for="">Email</label>
-          <input type="text" ng-model="user.email" class="form-control"/>
+          <input type="email" name="email" ng-model="user.email" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required/>
+          <div class="custom-error"  ng-show="myForm.email.$error.pattern">
+            Not a valid email
+          </div>
         </div>
         <div class="form-group">
           <label for="">Password</label>
@@ -30,8 +33,8 @@
           <label for="">Confirm Password</label>
           <input type="password" ng-model="user.confirm" class="form-control"/>
         </div>
-        <button type="submit" ng-click="editSettings(user)" class="btn btn-info">Update Settings</button>
+        <button type="submit" ng-click="editSettings(user)" id="updateBtn" class="btn pull-right">Update Settings</button>
       </form>
     </div>
   </div>
-</div>
+</section>

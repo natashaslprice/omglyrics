@@ -32,7 +32,7 @@
                 <label for="">Password</label>
                 <input type="password" ng-model="user.password" class="form-control"/>
               </div>
-              <button type="submit" ng-click="login()" class="btn btn-info">Log In</button>
+              <button type="submit" ng-click="login()" id="loginBtn" class="btn pull-right">Log In</button>
             </form>
           </div>
         </li>
@@ -44,32 +44,32 @@
             <form novalidate name="myForm">
               <div class="form-group">
                 <label for="">First name</label>
-                <input type="text" ng-model="user.firstName" class="form-control" required/>
+                <input type="text" ng-model="user.firstName" class="form-control" required>
               </div>
               <div class="form-group">
                 <label for="">Last Name</label>
-                <input type="text" ng-model="user.lastName" class="form-control" required/>
+                <input type="text" ng-model="user.lastName" class="form-control" required>
               </div>
               <div class="form-group">
                 <label for="">Username</label>
-                <input type="text" ng-model="user.username" class="form-control" required/>
+                <input type="text" ng-model="user.username" class="form-control" required>
               </div>
               <div class="form-group">
                 <label for="">Email</label>
-                <input type="text" name="email" ng-model="user.email" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required/>
+                <input type="text" name="email" ng-model="user.email" class="form-control" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required>
                 <div class="custom-error"  ng-show="myForm.email.$error.pattern">
                   Not a valid email
                 </div>
               </div>
               <div class="form-group">
                 <label for="">Password</label>
-                <input type="password" ng-model="user.password" class="form-control" required/>
+                <input type="password" ng-model="user.password" class="form-control" required>
               </div>
               <div class="form-group">
                 <label for="">Confirm Password</label>
-                <input type="password" ng-model="user.confirm" class="form-control" required/>
+                <input type="password" ng-model="user.confirm" class="form-control" required>
               </div>
-              <button type="submit" ng-click="signup()" class="btn btn-info">Sign Up</button>
+              <button type="submit" ng-click="signup()" id="signupBtn" class="btn pull-right">Sign Up</button>
             </form>
           </div>
         </li>
@@ -121,13 +121,9 @@
             <label for="">Confirm Password</label>
             <input type="password" ng-model="user.confirm" class="form-control" required/>
           </div>
-          <button type="submit" ng-click="signup()" class="btn btn-info">Sign Up</button>
+          <button type="submit" ng-click="signupFromModal()" id="signupBtnModal" class="btn">Sign Up</button>
         </form>
       </div>
-      <!-- <div class="modal-footer"><a ng-click="signupMode = true" ng-hide="signupMode" class="btn btn-link">Sign Up</a>
-        <button type="submit" ng-hide="signupMode" ng-click="login()" class="btn btn-info">Log In</button><a ng-click="signupMode = false" ng-show="signupMode" class="btn btn-link">Login</a>
-        <button type="submit" ng-cloak="" ng-show="signupMode" ng-click="signup()" class="btn btn-info">Sign Up</button>
-      </div> -->
     </div>
   </div>
 </div>

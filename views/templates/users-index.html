@@ -1,38 +1,43 @@
-<div class="container">
+<section id="profileSection">
 	<div class="row">
-		<h1>Here's how you're doing, {{ user.firstName }}:</h1>
+		<h1 class="text-center">Keep track of your badges here</h1>
 	</div>
-	<br><br><br>
+	<br><br>
 	<div class="row">
-		<div>
+		<div class="col-md-6 col-md-offset-3">
 		  <uib-tabset>
 		    <!-- info on first (open) tab -->
 		    <uib-tab heading="Gold Badges">
 		    	<br>
 		    	You have {{ goldCount }} Gold {{ badgeGold }}
 		    	<hr>
-		    	<ol ng-repeat="song in songsGold">
-		    		<li>{{ song.title }} by {{ song.artist }}</li>
+		    	<ol> 
+		    		<div ng-repeat="song in songsGold">
+		    			<li>{{ song.title }} by {{ song.artist }}</li>
+		    		</div>
 		    	</ol>
 		    </uib-tab>
 		    <uib-tab heading="Silver Badges">
 		    	<br>
 		    	You have {{ silverCount }} Silver {{ badgeSilver }}
 		    	<hr>
-		    	<ol ng-repeat="song in songsSilver">
-		    		<li>{{ song.title }} by {{ song.artist }}</li>
+		    	<ol>
+		    		<div ng-repeat="song in songsSilver">
+		    			<li>{{ song.title }} by {{ song.artist }}</li>
+		    		</div>
 		    	</ol>
 		    </uib-tab>
 		    <uib-tab heading="Bronze Badges">
 		    	<br>
 		    	You have {{ bronzeCount }} Bronze {{ badgeBronze }}
 		    	<hr>
-		    	<ol ng-repeat="song in songsBronze">
-		    		<li>{{ song.title }} by {{ song.artist }}</li>
+		    	<ol>
+		    		<div ng-repeat="song in songsBronze">
+		    			<li>{{ song.title }} by {{ song.artist }}</li>
+		    		</div>
 		    	</ol>
 		    </uib-tab>
 		  </uib-tabset>
 		</div>
 	</div>
-
-</div>
+</section>
