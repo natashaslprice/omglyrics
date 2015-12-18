@@ -183,7 +183,7 @@ angular.module('myApp')
         lyricsArray[randomNumber] = lyricsArray[randomNumber].replace(lyricsArray[randomNumber], inputField);
         // and push that number into number array
         indexArray.push(randomNumber);
-      }
+      } 
       else {
         return;
       }
