@@ -87,27 +87,33 @@ module.exports = function(app) {
     request(trackIdQuery, function(err, response, body) {
       if (!err && response.statusCode == 200) {
         var trackData = JSON.parse(body);
-        // console.log(trackData.message.body.track);
-        // get musix track id
-        var trackId = trackData.message.body.track.track_id;
-        // getspotify track uri (to use spotify play button)
-        var trackUri = ":" + trackData.message.body.track.track_spotify_id;
-        // console.log("response: ", trackId, trackUri);
+        console.log("here", trackData.message.body.track);
+        // if lyrics, continue
+        if (trackData.message.body.track) {
+          // get musix track id
+          var trackId = trackData.message.body.track.track_id;
+          // getspotify track uri (to use spotify play button)
+          var trackUri = ":" + trackData.message.body.track.track_spotify_id;
+          // console.log("response: ", trackId, trackUri);
 
-        // send trackId into lyrics api to get lyrics
-        var trackLyricQuery = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=" + MM_API_KEY + "&track_id=" + trackId;
-        request(trackLyricQuery, function(err, response, body) {
-          if (!err && response.statusCode == 200) {
-            var trackLyricsData = JSON.parse(body);
-            // console.log("lyrics: ", trackLyricsData.message.body.lyrics.lyrics_body);
-            res.write(trackLyricsData.message.body.lyrics.lyrics_body);
-            res.write(trackUri);
-            res.end();
-          }
-          else {
-            console.log("error in lyrics api: " + err);
-          } 
-        });
+          // send trackId into lyrics api to get lyrics
+          var trackLyricQuery = "http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey=" + MM_API_KEY + "&track_id=" + trackId;
+          request(trackLyricQuery, function(err, response, body) {
+            if (!err && response.statusCode == 200) {
+              var trackLyricsData = JSON.parse(body);
+              // console.log("lyrics: ", trackLyricsData.message.body.lyrics.lyrics_body);
+              res.write(trackLyricsData.message.body.lyrics.lyrics_body);
+              res.write(trackUri);
+              res.end();
+            }
+            else {
+              console.log("error in lyrics api: " + err);
+            } 
+          });
+        }
+        else {
+          return res.status(401).send({ message: 'No lyrics' });
+        }
       }
       else {
         console.log("error in trackdata api: " + err);

@@ -92,6 +92,12 @@ angular.module('myApp')
       $http.post('/api/lyrics', {artist: $scope.trackArtist, track: $scope.trackName})
         .success(function(response) {
           // console.log(response);
+
+          // clear current lyrics
+          $('#lyrics').html("");
+          // clear error message
+          $scope.lyricsError = '';
+
           // get track uri numbers for spotify play button
           $scope.trackUri = response.match(/:[^:]*$/g);
           // console.log("here", $scope.trackUri);
@@ -136,9 +142,6 @@ angular.module('myApp')
           }
           // console.log(blanksIndexes);
           // console.log(responseArray);
-          
-          // clear current lyrics
-          $('#lyrics').html("");
 
           // make array a string again and send to directive
           $scope.stringLyrics = $sce.trustAsHtml("<p>" + responseArray.join(" ") + "</p>");
@@ -150,7 +153,14 @@ angular.module('myApp')
           // var stringLyricsBreak = stringLyrics.replace(/\n/g, '<br>'); 
         })
         .error(function(error) {
-          // console.log("The error with the /api/lyrics call is: ", error);
+          console.log("The error with the /api/lyrics call is: ", error);
+
+          // clear current lyrics
+          $('#lyrics').html("");
+          // clear error message
+          $scope.lyricsError = '';
+
+          $scope.lyricsError = "Sorry, we could not find any lyrics! Please try again with a different track.";
         });
     }; // end of getLyrics function
     
@@ -183,7 +193,7 @@ angular.module('myApp')
         lyricsArray[randomNumber] = lyricsArray[randomNumber].replace(lyricsArray[randomNumber], inputField);
         // and push that number into number array
         indexArray.push(randomNumber);
-      } 
+      }
       else {
         return;
       }

@@ -42,6 +42,7 @@
 				<h5 class="songsSteps" ng-show="currentUser">Step 4: Know the lyrics!</h5>
 				<h5 class="songsSteps" ng-show="!currentUser">Step 3: Know the lyrics!</h5>
 				<br>
+				<div class="text-center custom-error">{{ lyricsError }}</div>
 				<div id="lyrics" compile-html="stringLyrics"></div>
 				<br>
 				<button id="playBtn" class="btn" ng-show="showButton" ng-click="checkCount(); open()">Play!</button>
