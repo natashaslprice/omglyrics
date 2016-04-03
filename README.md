@@ -8,7 +8,4 @@ You can view Next Book on [Heroku](https://omglyrics.herokuapp.com).
 
 Libraries used:
 
-Languages: HTML5, CSS3, Javascript
-Front-end: JQuery, JQuery validate, Ajax, Bootstrap, Google Fonts
-Back-end: Node.js, Express, Bcrypt, Body-parser, Cookie-parser, Ejs, Express-session, Request, Nodemailer, Dotenv
-Database: MongoDB with Mongoose
+Built using the MEAN stack - MongoDB, Express, AngularJS and Node.js.
